@@ -360,6 +360,21 @@ public class Moai {
 			executeMethod ( theClass, null, "onActivityResult", new Class < ? > [] { java.lang.Integer.TYPE, java.lang.Integer.TYPE, Intent.class }, new Object [] { new Integer ( requestCode ), new Integer ( resultCode ), data });
 		}	
 	}
+	
+	//----------------------------------------------------------------//
+	public static boolean onBackPressed () {
+		
+		boolean handled = false;
+				
+		for ( Class < ? > theClass : sAvailableClasses ) {
+
+			handled = (Boolean) executeMethod ( theClass, null, "onBackPressed", new Class < ? > [] { }, new Object [] { });
+			
+			if (handled) break;
+		}
+		
+		return handled ? true : backButtonPressed();
+	}		
 
 	//----------------------------------------------------------------//
 	public static void onCreate ( Activity activity ) {

@@ -374,7 +374,7 @@ public class Moai {
 		}
 		
 		return handled ? true : backButtonPressed();
-	}		
+	}	cd sr		
 
 	//----------------------------------------------------------------//
 	public static void onCreate ( Activity activity ) {

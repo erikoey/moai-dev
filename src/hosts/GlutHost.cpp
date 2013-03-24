@@ -19,6 +19,10 @@
 	#include <aku/AKU-fmod.h>
 #endif
 
+#ifdef GLUTHOST_USE_FMOD_DESIGNER
+	#include <moaiext-fmod-designer/AKU-fmod-designer.h>
+#endif
+
 #ifdef GLUTHOST_USE_LUAEXT
 	#include <aku/AKU-luaext.h>
 #endif
@@ -204,7 +208,8 @@ static void _onReshape( int w, int h ) {
 static void _onTimer ( int millisec ) {
 	UNUSED ( millisec );
 
-	int timerInterval = ( int )( AKUGetSimStep () * 1000.0 );
+	double fSimStep = AKUGetSimStep ();
+	int timerInterval = ( int )( fSimStep * 1000.0 );
 	glutTimerFunc ( timerInterval, _onTimer, timerInterval );
 	
 	#ifdef GLUTHOST_USE_DEBUGGER
@@ -217,6 +222,10 @@ static void _onTimer ( int millisec ) {
 		AKUFmodUpdate ();
 	#endif
 	
+	#ifdef GLUTHOST_USE_FMOD_DESIGNER
+		AKUFmodDesignerUpdate (( float )fSimStep );
+	#endif
+
 	if ( sDynamicallyReevaluateLuaFiles ) {		
 		#ifdef _WIN32
 			winhostext_Query ();
@@ -348,18 +357,26 @@ int GlutHost ( int argc, char** argv ) {
 
 	char* lastScript = NULL;
 
-	for ( int i = 1; i < argc; ++i ) {
-		char* arg = argv [ i ];
-		if ( strcmp( arg, "-e" ) == 0 ) {
-			sDynamicallyReevaluateLuaFiles = true;
-		}
-		else if ( strcmp( arg, "-s" ) == 0 && ++i < argc ) {
-			char* script = argv [ i ];
-			AKURunString ( script );
-		}
-		else {
-			AKURunScript ( arg );
-			lastScript = arg;
+	if ( argc < 2 ) {
+		AKURunScript ( "main.lua" );
+	}
+	else {
+
+		AKUSetArgv ( argv );
+
+		for ( int i = 1; i < argc; ++i ) {
+			char* arg = argv [ i ];
+			if ( strcmp( arg, "-e" ) == 0 ) {
+				sDynamicallyReevaluateLuaFiles = true;
+			}
+			else if ( strcmp( arg, "-s" ) == 0 && ++i < argc ) {
+				char* script = argv [ i ];
+				AKURunString ( script );
+			}
+			else {
+				AKURunScript ( arg );
+				lastScript = arg;
+			}
 		}
 	}
 	
@@ -388,6 +405,10 @@ void GlutRefreshContext () {
 
 	#ifdef GLUTHOST_USE_FMOD
 		AKUFmodLoad ();
+	#endif
+	
+	#ifdef GLUTHOST_USE_FMOD_DESIGNER
+		AKUFmodDesignerInit ();
 	#endif
 	
 	#ifdef GLUTHOST_USE_LUAEXT

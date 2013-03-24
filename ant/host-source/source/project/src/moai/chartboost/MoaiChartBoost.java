@@ -14,7 +14,7 @@ public class MoaiChartBoost {
 	
 	protected static native void AKUNotifyChartBoostInterstitialDismissed	();
 	protected static native void AKUNotifyChartBoostInterstitialLoadFailed	();
-	//protected static native void AKUNotifyChartBoostInterstitialCached		( String location );
+	protected static native void AKUNotifyChartBoostInterstitialCached		();
 	
 
 	//----------------------------------------------------------------//
@@ -145,11 +145,9 @@ public class MoaiChartBoost {
 	       // Save which location is ready to display immediately
 		   // MoaiLog.i ( "Chartboost: didCacheInterstitial()" );	    	
 	    	
-			/*
 			synchronized ( Moai.sAkuLock ) {
-				AKUNotifyChartBoostInterstitialCached ( location );
+				AKUNotifyChartBoostInterstitialCached ();
 			}
-			*/
 	    }
 
 	    /*

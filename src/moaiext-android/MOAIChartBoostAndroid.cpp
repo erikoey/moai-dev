@@ -200,6 +200,7 @@ void MOAIChartBoostAndroid::NotifyInterstitialLoadFailed () {
 	}
 }
 
+
 //================================================================//
 // ChartBoost JNI methods
 //================================================================//
@@ -215,5 +216,6 @@ extern "C" void Java_com_ziplinegames_moai_MoaiChartBoost_AKUNotifyChartBoostInt
 
 	MOAIChartBoostAndroid::Get ().NotifyInterstitialLoadFailed ();
 }
+
 
 #endif

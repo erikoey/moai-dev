@@ -347,7 +347,7 @@ GLenum _remapEnum ( u32 zglEnum ) {
 		case ZGL_WRAP_MODE_REPEAT:						return GL_REPEAT;
 	}
   	
-	assert ( false );
+	//assert ( false );
 	return 0;
 }
 
@@ -376,7 +376,7 @@ void zglInitialize () {
 	#endif
 
 	string version = zglGetString ( ZGL_STRING_VERSION );
-	for ( u32 i = 0; version [ i ]; i++ ) {
+	for ( u32 i = 0; i < version.length(); i++ ) {
 		version [ i ] = ( char )tolower ( version [ i ]);
 	}
 	
